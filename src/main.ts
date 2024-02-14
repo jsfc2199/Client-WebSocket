@@ -6,6 +6,10 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
    <h1>WebSocket client</h1>
    <span id="server-status">offline</span>
    <ul id="clients-ul"></ul>
+
+  <form id="message-form">
+    <input placeholder="message" id="message-input" />
+  </form>
   </div>
 `
 
