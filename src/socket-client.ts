@@ -11,7 +11,11 @@ export const connectToServer = () => {
 }
 
 const addListeners = (socket: Socket) => {
+
     const serverStatusLabel = document.querySelector('#server-status');
+
+    //creamos la lista de clientes
+    const clientsUl = document.querySelector('#clients-ul')!
 
     // usamos propiedades del proprio socker
     //para escuchar usamos el metodo on
@@ -21,5 +25,16 @@ const addListeners = (socket: Socket) => {
 
     socket.on('disconnect', () => {
         serverStatusLabel!.innerHTML = 'disconnected';
+    })
+
+    //el argumento es un arreglo de strings pues es lo que emite el servidor
+    socket.on('clients-updates', (clients: string[]) => {
+        let clientsHTML = '';
+        clients.forEach(clientID => {
+            clientsHTML += `
+            <li>${clientID}</li>
+            `
+        });
+        clientsUl.innerHTML = clientsHTML;
     })
 }
