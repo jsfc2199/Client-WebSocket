@@ -1,7 +1,12 @@
 import { Manager, Socket } from "socket.io-client"
 
-export const connectToServer = () => {
-    const manager = new Manager('http://localhost:3000/socket.io/socket.io.js');
+export const connectToServer = (token: string) => {
+    const manager = new Manager('http://localhost:3000/socket.io/socket.io.js',{
+        extraHeaders:{
+            hola:'mundo',
+            authentication:token,
+        }
+    });
     
     //por defecto el servidor al no tener namespace definido en el gateway al lado de la propiedad cors, será entonces la ruta main
     const socket = manager.socket('/'); 
