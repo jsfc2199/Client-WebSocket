@@ -20,6 +20,9 @@ const addListeners = (socket: Socket) => {
     const messageForm = document.querySelector<HTMLFormElement>('#message-form')!
     const messageInput = document.querySelector<HTMLInputElement>('#message-input')!
 
+    const messagesUl = document.querySelector<HTMLUListElement>('#messages-ul')!
+    
+
     // usamos propiedades del proprio socker
     //para escuchar usamos el metodo on
     socket.on('connect', () => {
@@ -52,6 +55,18 @@ const addListeners = (socket: Socket) => {
         })
         //limpiamos el input
         messageInput.value = ''
+    })
+
+    socket.on('message-from-server', (payload: {fullName: string, message: string}) => {
+        const newMessage =`
+        <li>
+        <strong>${ payload. fullName }</strong>
+        <span></span>${ payload.message }</span>
+        </li>`
+        
+        const li = document.createElement('li')
+        li.innerHTML = newMessage
+        messagesUl.append(li)
     })
 
 }
