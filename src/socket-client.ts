@@ -1,5 +1,6 @@
 import { Manager, Socket } from "socket.io-client"
 
+let socket: Socket;
 export const connectToServer = (token: string) => {
     const manager = new Manager('http://localhost:3000/socket.io/socket.io.js',{
         extraHeaders:{
@@ -8,14 +9,17 @@ export const connectToServer = (token: string) => {
         }
     });
     
-    //por defecto el servidor al no tener namespace definido en el gateway al lado de la propiedad cors, será entonces la ruta main
-    const socket = manager.socket('/'); 
+    //con el ? indicamos de que si existe el socket borre los listeners anteriores
+    socket?.removeAllListeners()
 
-    addListeners(socket);
+    //por defecto el servidor al no tener namespace definido en el gateway al lado de la propiedad cors, será entonces la ruta main
+    socket = manager.socket('/'); 
+
+    addListeners();
     
 }
 
-const addListeners = (socket: Socket) => {
+const addListeners = () => {
 
     const serverStatusLabel = document.querySelector('#server-status');
 
